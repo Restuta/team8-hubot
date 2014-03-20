@@ -10,5 +10,6 @@
 	"isup.coffee",
 	"roll.coffee",
 	"catfacts.coffee",
-	"chat.coffee"
+	"chat.coffee",
+	"polite.coffee"
 	]
