@@ -9,5 +9,6 @@
 	"brb.coffee",
 	"isup.coffee",
 	"roll.coffee",
-	"catfacts.coffee"
+	"catfacts.coffee",
+	"chat.coffee"
 	]
