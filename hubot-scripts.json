@@ -1,1 +1,5 @@
-["redis-brain.coffee", "shipit.coffee", "jira-issues.coffee", "demolition-man.coffee"]
+["redis-brain.coffee", 
+	"shipit.coffee", 
+	"jira-issues.coffee", 
+	"demolition-man.coffee",
+	"flip.coffee"]
