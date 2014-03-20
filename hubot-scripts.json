@@ -11,6 +11,5 @@
 	"roll.coffee",
 	"catfacts.coffee",
 	"chat.coffee",
-	"polite.coffee",
-	"screencast.coffee"
+	"polite.coffee"
 	]
