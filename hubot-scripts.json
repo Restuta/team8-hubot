@@ -1,4 +1,5 @@
-["redis-brain.coffee", 
+[
+	"redis-brain.coffee", 
 	"shipit.coffee", 
 	"jira-issues.coffee", 
 	"demolition-man.coffee",
@@ -17,4 +18,4 @@
 	"homer.coffee",
 	"httpcat.coffee",
 	"remember.coffee"
-	]
+]
