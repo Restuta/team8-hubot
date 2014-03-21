@@ -13,5 +13,6 @@
 	"chat.coffee",
 	"polite.coffee",
 	"screencast.coffee",
-	"good-night.coffee"
+	"good-night.coffee",
+	"homer.coffee"
 	]
