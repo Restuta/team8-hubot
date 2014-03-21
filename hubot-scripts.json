@@ -15,5 +15,6 @@
 	"screencast.coffee",
 	"good-night.coffee",
 	"homer.coffee",
-	"httpcat.coffee"
+	"httpcat.coffee",
+	"remember.coffee"
 	]
