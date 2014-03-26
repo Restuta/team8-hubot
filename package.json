@@ -27,7 +27,8 @@
     "underscore": "*",
     "flip": "~0.1.0",
     "htmlparser": "1.7.6",
-    "soupselect": "0.2.0"
+    "soupselect": "0.2.0",
+    "hubot-simpsons": ">= 0.0.0",
   },
   "engines": {
     "node": ">= 0.8.x",
