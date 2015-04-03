@@ -19,7 +19,10 @@
     "type": "git",
     "url": "https://github.com/Restuta/team8-hubot.git"
   },
-   "dependencies": {
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "flip": "~0.1.0",
+    "htmlparser": "1.7.7",
     "hubot": "^2.11.4",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.1.4",
@@ -32,14 +35,11 @@
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
     "hubot-shipit": "^0.1.2",
-    "hubot-youtube": "^0.1.2",
-
-    "underscore": "*",
     "hubot-slack": "^3.3.0",
-    "flip": "~0.1.0",
-    "htmlparser": "1.7.7",
+    "hubot-youtube": "^0.1.2",
+    "slack-client": "~1.4.0",
     "soupselect": "0.2.0",
-    "slack-client": "~1.4.0"
+    "underscore": "*"
   },
   "engines": {
     "node": "0.10.x"
