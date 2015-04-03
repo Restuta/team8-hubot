@@ -1,7 +1,4 @@
 [
-	"redis-brain.coffee", 
-	"shipit.coffee", 
-	"demolition-man.coffee",
 	"flip.coffee",
 	"hello.coffee",
 	"zombies.coffee",

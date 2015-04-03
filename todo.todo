@@ -7,11 +7,16 @@ Features
 	- money
 		- команду для перевода денег легкого like `hubot more money`
 		- добавить команды для проверки счёта like `money left?` (edited)
+		- notificatoins about low balance https://devcenter.heroku.com/articles/mail2webhook#configure-the-add-on
 	- дома утренний экран, показыает 
-    	- сколько денег на счету, 
+    	- сколько денег на счету
+    		- mint
+    			- main https://wwws.mint.com/transaction.event?accountId=1277985
+    			- online checking https://wwws.mint.com/transaction.event?accountId=1277983
     	- погоду в сф 
     	- туду на сегодня :smiley: 
     	- что у меня за тренировка
+    		http://www.trainingpeaks.com/tpwebservices/service.asmx/GetWorkoutsForAthlete
    		- из календаря события (edited)
 	- команду для добавления в список покупок вещи: типо что-то дома "о надо купить" сразу сделали `hubot we need milk` и оно автоматом в список, что мы видим (edited)
 	- показывать таски которые надо выполнить к какому-то моменту с обратным отсчётом
