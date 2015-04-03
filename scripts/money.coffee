@@ -20,3 +20,28 @@ module.exports = (robot) ->
 
   robot.hear /Helen/i, (msg) ->
     msg.send "Magical Unicorns!!!111"
+
+  robot.hear /test attach/i, (msg) ->
+    msg.send "got it" 
+
+    robot.emit 'slack.attachment',
+      message: msg.message
+      content:
+        # see https://api.slack.com/docs/attachments
+        text: "Attachment text"
+        title: "Title"
+        color: "#36a64f"
+        fallback: "Attachment fallback"
+        fields: [{
+          title: "Short Field title"
+          value: "Short Field value"
+          short: true
+        },{
+          title: "Long field title"
+          value: "Long field value"
+          short: true
+        },{
+          title: "Long field title"
+          value: "Long field value"
+          short: true
+        }]
