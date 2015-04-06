@@ -20,7 +20,7 @@
 spawn = require('child_process').spawn
 
 module.exports = (robot) ->
-  robot.router.get '/'
+  robot.router.get '/', (req, res) ->
     res.end 'I am just a robot programmed with ♡ by Restuta.'
 
   robot.router.get "/version", (req, res) ->
