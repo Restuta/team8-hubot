@@ -14,12 +14,14 @@
 # Author:
 #   Restuta[@<org>]
 
+chalk = require('chalk')
+
 module.exports = (robot) ->
   robot.respond /8/i, (msg) ->
     msg.send "8 it is!"
 
   robot.hear /Helen/i, (msg) ->
-    msg.send "Magical Unicorns!!!111"
+    msg.send chalk.blue "Magical Unicorns!!!111"
 
   robot.hear /test attach/i, (msg) ->
     msg.send "got it" 

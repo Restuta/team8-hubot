@@ -8,6 +8,8 @@ Features
 		- команду для перевода денег легкого like `hubot more money`
 		- добавить команды для проверки счёта like `money left?` (edited)
 		- notificatoins about low balance https://devcenter.heroku.com/articles/mail2webhook#configure-the-add-on
+		-- twillio for SMS? to control accounts using SMS: twilio can receive and send SMS and trigger HTTP so I can setup
+		bank texting integraiton with transfer 200 + wait + y or other commands
 	- дома утренний экран, показыает 
     	- сколько денег на счету
     		- mint
@@ -25,3 +27,7 @@ Features
 	- поддержка команд для покупок: http://www.zinc.io/docs/
 		- hubot buy cats food
 		- hubot buy paper towels
+
+
+Speech controlled 
+ - https://www.talater.com/annyang/: https://github.com/TalAter/annyang
