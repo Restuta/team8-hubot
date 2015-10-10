@@ -27,29 +27,35 @@ module.exports = (robot) ->
 
   #todo add support for +$234234 and -$23423
   #todo add support for saving + and - log (a la tranasctions log)
-  robot.hear /\$\d+(\.\d+)?/ig, (msg) ->
+  #listens for +$100 and -$100 in channels and maintains total
+  robot.hear /[+-]\$\d+(\.\d+)?/ig, (msg) ->
     # if msg.message.room != 'restuta'
     #   return
 
     moneyBrainCell = 'total-money'
 
+    toFloat = (x) ->
+      parseFloat(x.replace(/[+-]\$/, '')) #removes "+$"" or "-$" from the beginning of the string
+
     addMoney = (item) ->
       total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
-      total += parseFloat(item)
+      total += item
       robot.brain.set moneyBrainCell, total
     subtractMoney = (item) ->
       total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
-      total += parseFloat(item)
+      total -= item
       robot.brain.set moneyBrainCell, total
-    summ = (items) ->
-      items.reduce (prev, current) -> prev + current
-    toFloat = (x) ->
-      parseFloat(if x[0] == '$' then x.substring 1 else x)
+    # sum = (items) ->
+    #   items.reduce (prev, current) -> prev + current
 
     msg.send 'calculating total...'
-    currentTotal = addMoney summ msg.match.map (x) -> toFloat x
+    currentTotal = msg.match.map (x) ->
+      if x[0] == '+'
+        addMoney toFloat x
+      else
+        subtractMoney toFloat x
 
-    msg.send '$' + robot.brain.get(moneyBrainCell).toFixed(2)
+    msg.send 'Total in #' + msg.message.room + ': $' + robot.brain.get(moneyBrainCell).toFixed(2)
 
   robot.hear /test attach/i, (msg) ->
     msg.send "got it"
