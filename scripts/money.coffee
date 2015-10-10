@@ -15,16 +15,44 @@
 #   Restuta[@<org>]
 
 chalk = require('chalk')
+util = require('util');
 
 module.exports = (robot) ->
   robot.respond /8/i, (msg) ->
     msg.send "8 it is!"
 
   robot.hear /Helen/i, (msg) ->
-    msg.send chalk.blue "Magical Unicorns!!!111"
+    msg.send "Magical Unicorns!!!111"
+
+
+  #todo add support for +$234234 and -$23423
+  #todo add support for saving + and - log (a la tranasctions log)
+  robot.hear /\$\d+(\.\d+)?/ig, (msg) ->
+    # if msg.message.room != 'restuta'
+    #   return
+
+    moneyBrainCell = 'total-money'
+
+    addMoney = (item) ->
+      total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
+      total += parseFloat(item)
+      robot.brain.set moneyBrainCell, total
+    subtractMoney = (item) ->
+      total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
+      total += parseFloat(item)
+      robot.brain.set moneyBrainCell, total
+    summ = (items) ->
+      items.reduce (prev, current) -> prev + current
+    toFloat = (x) ->
+      parseFloat(if x[0] == '$' then x.substring 1 else x)
+
+    msg.send 'calculating total...'
+    currentTotal = addMoney summ msg.match.map (x) -> toFloat x
+
+    msg.send '$' + robot.brain.get(moneyBrainCell).toFixed(2)
 
   robot.hear /test attach/i, (msg) ->
-    msg.send "got it" 
+    msg.send "got it"
 
     robot.emit 'slack.attachment',
       message: msg.message
