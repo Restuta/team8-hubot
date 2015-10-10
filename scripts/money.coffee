@@ -17,63 +17,90 @@
 chalk = require('chalk')
 util = require('util');
 
+getTotal = (records) ->
+  if records
+    records.map((x) -> x.amount).reduce(((prev, next) -> prev + next), 0)
+  else
+    return 0
+
+getRecordsLog = (records) ->
+  if records
+    records.map((x) -> x.description)
+  else
+    return []
+
+sendToSlack = (robot, message, text, color) ->
+  robot.emit 'slack.attachment',
+    message: message
+    content:
+      text: text
+      color: color
+      fallback: "Attachment fallback"
+
 #money functions and variables
 sendTotal = (robot, msg) ->
-  moneyBrainCell = msg.message.room + '_total-money'
+  moneyHistoryBrainCell = msg.message.room + '_total-money-history'
   itIsSlack = msg.message.room != 'Shell'
-  currentTotal = robot.brain.get(moneyBrainCell).toFixed(2)
+
+  records = robot.brain.get(moneyHistoryBrainCell);
+  currentTotal = getTotal(robot.brain.get(moneyHistoryBrainCell))
+
+  #msg.send('\n' + getRecordsLog(records).join('\n'))
+  log = '\n'
+
+  for record in records
+    if (record.amount > 0)
+      log += '_' + record.description + '_\n'
+    else
+      log += '_    ' + record.description + '_\n'
+
+  msg.send log
 
   if itIsSlack
-    good = 'good'
-    neutral = '#cccccc'
-    danger = 'danger'
-
     msgColor = switch
-      when currentTotal == 0 then neutral
-      when currentTotal > 0 then good
-      when currentTotal < 0 then danger
+      when currentTotal == 0 then '#cccccc'
+      when currentTotal > 0 then 'good'
+      when currentTotal < 0 then 'danger'
 
-    robot.emit 'slack.attachment',
-      message: msg.message
-      content:
-        text: 'Total: $' + currentTotal
-        color: msgColor
-        fallback: "Attachment fallback"
+    sendToSlack(robot, msg.message, 'Total: $' + currentTotal, msgColor)
   else
     msg.send 'Total in #' + msg.message.room + ': $' + currentTotal
 
 module.exports = (robot) ->
+
   robot.respond /8/i, (msg) ->
     msg.send "8 it is!"
 
   robot.hear /Helen/i, (msg) ->
     msg.send "Magical Unicorns!!!111"
 
-  robot.hear /(total|show total)$/i, (msg) ->
+  robot.hear /(total|money total)$/i, (msg) ->
+    sendTotal robot, msg
+
+  robot.hear /(money reset)$/i, (msg) ->
+    moneyHistoryBrainCell = msg.message.room + '_total-money-history'
+    robot.brain.set(moneyHistoryBrainCell, [])
     sendTotal robot, msg
 
   #todo add support for saving + and - log (a la tranasctions log)
   #listens for +$100 and -$100 in channels and maintains total
-  robot.hear /[+-]\$\d+(\.\d+)?/ig, (msg) ->
-    moneyBrainCell = msg.message.room + '_total-money'
-    moneyHistoryBrainCell
+  robot.hear /[+-]\$\d+(\.\d+)? [\w\s!@#%^&*()_+"'\\\/]+/ig, (msg) ->
+    moneyHistoryBrainCell = msg.message.room + '_total-money-history'
 
     toFloat = (x) ->
-      parseFloat(x.replace(/[+-]\$/, '')) #removes "+$"" or "-$" from the beginning of the string
-    addMoney = (item) ->
-      total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
-      total += item
-      robot.brain.set moneyBrainCell, total
-    subtractMoney = (item) ->
-      total = parseFloat(robot.brain.get(moneyBrainCell) ? 0)
-      total -= item
-      robot.brain.set moneyBrainCell, total
+      parseFloat(x.replace('$', ''))
+    extractAmount = (x) ->
+      toFloat(x.match(/[+-]\$\d+(\.\d+)?/)[0])
+    addRecord = (amount, record) ->
+      records = robot.brain.get(moneyHistoryBrainCell) ? []
+      records.push({
+        amount: amount,
+        description: record});
+      robot.brain.set(moneyHistoryBrainCell, records)
 
-    msg.match.map (x) ->
-      if x[0] == '+'
-        addMoney toFloat x
-      else
-        subtractMoney toFloat x
+    msg.match.map (matchedRecord) ->
+      amount = extractAmount(matchedRecord)
+      addRecord(amount, matchedRecord)
 
     sendTotal robot, msg
 
