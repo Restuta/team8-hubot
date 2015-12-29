@@ -19,7 +19,7 @@ util = require('util');
 
 getTotal = (records) ->
   if records
-    records.map((x) -> x.amount).reduce(((prev, next) -> prev + next), 0)
+    return records.map((x) -> x.amount).reduce(((prev, next) -> prev + next), 0)
   else
     return 0
 
@@ -48,13 +48,16 @@ sendTotal = (robot, msg) ->
   #msg.send('\n' + getRecordsLog(records).join('\n'))
   log = '\n'
 
-  for record in records
-    if (record.amount > 0)
-      log += '_' + record.description + '_\n'
-    else
-      log += '_    ' + record.description + '_\n'
+  if (!records)
+    log = ''
+  else
+    for record in records
+      if (record.amount > 0)
+        log += '_' + record.description + '_\n'
+      else
+        log += '_    ' + record.description + '_\n'
 
-  msg.send log
+  msg.send(log)
 
   if itIsSlack
     msgColor = switch
@@ -64,10 +67,9 @@ sendTotal = (robot, msg) ->
 
     sendToSlack(robot, msg.message, 'Total: $' + currentTotal, msgColor)
   else
-    msg.send 'Total in #' + msg.message.room + ': $' + currentTotal
+    msg.send('Total in #' + msg.message.room + ': $' + currentTotal)
 
 module.exports = (robot) ->
-
   robot.respond /8/i, (msg) ->
     msg.send "8 it is!"
 
