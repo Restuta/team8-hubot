@@ -1,4 +1,3 @@
 #!/bin/sh
 
-HUBOT_SLACK_TOKEN=xoxb-4293217489-2JAmwiofngV4Y9pSc0imsyLj ./bin/hubot --adapter slack
-
+HUBOT_SLACK_TOKEN=xoxb-4293217489-2JAmwiofngV4Y9pSc0imsyLj ./bin/nodemon-hubot --adapter slack

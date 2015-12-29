@@ -1,4 +1,3 @@
 #!/bin/sh
 
-./bin/hubot
-
+./bin/nodemon-hubot
