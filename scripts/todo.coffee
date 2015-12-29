@@ -26,8 +26,6 @@ module.exports = (robot) ->
   # triggered only when "hubot <msg>" is sent
   robot.respond /todo!/i, (msg) ->
     slack.send(msg, 'text', 'good')
-    msg send "bla"
-    msg.reply "todo module is loaded!"
 
   #triggered on every message
   robot.hear /(todo test)/i, (msg) ->

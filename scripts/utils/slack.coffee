@@ -5,9 +5,15 @@ toJson = (obj) -> util.inspect(obj, {colors: true})
 
 module.exports = (robot) ->
   console.log(chalk.magenta('Slack module initialized.'))
-  send = (message, text, color) ->
+
+  send = (msg, text, color) ->
+    itIsSlack = msg.message.room != 'Shell'
+
+    if(!itIsSlack)
+      return msg.send(text)
+
     robot.emit 'slack.attachment',
-      message: message
+      message: msg
       content:
         text: text
         color: color
