@@ -21,32 +21,36 @@
   },
   "scripts": {
     "start": "nodemon --exec \"./hubot\" ./scripts/*",
-    "slack": "nodemon --exec \"./hubot-slack\" ./scripts/*"
+    "slack": "nodemon --exec \"./hubot-slack\" ./scripts/*",
+    "reinstall": "rimraf node_modules && npm i"
   },
   "dependencies": {
     "chalk": "^1.1.1",
-    "flip": "~0.1.0",
+    "flip": "~1.0.0",
     "htmlparser": "1.7.7",
-    "hubot": "^2.16.0",
+    "hubot": "^2.17.0",
     "hubot-diagnostics": "0.0.1",
-    "hubot-google-images": "^0.2.2",
+    "hubot-google-images": "^0.2.6",
     "hubot-google-translate": "^0.2.0",
-    "hubot-help": "^0.1.1",
-    "hubot-heroku-keepalive": "1.0.0",
+    "hubot-help": "^0.1.2",
+    "hubot-heroku-keepalive": "1.0.1",
     "hubot-maps": "0.0.2",
     "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.3",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
     "hubot-shipit": "^0.2.0",
-    "hubot-slack": "^3.3.0",
+    "hubot-slack": "^3.4.2",
     "hubot-youtube": "^1.0.1",
-    "moment": "^2.10.6",
-    "slack-client": "~1.4.0",
+    "moment": "^2.11.0",
+    "slack-client": "~1.5.1",
     "soupselect": "0.2.0",
     "underscore": "*"
   },
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+    "rimraf": "^2.5.0"
   }
 }
