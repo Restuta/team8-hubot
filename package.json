@@ -48,7 +48,7 @@
     "underscore": "*"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "5.3.0"
   },
   "devDependencies": {
     "rimraf": "^2.5.0"
