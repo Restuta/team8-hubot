@@ -19,26 +19,57 @@ util = require('util');
 Slack = require('./utils/slack')
 moment = require('moment');
 
-toJson = (obj) -> util.inspect(obj, {colors: true})
+toJson = (obj) -> util.inspect(obj, {colors: true, depth: 8})
 
 module.exports = (robot) ->
   slack = Slack(robot);
 
-  #main logic for managing todos
-  todos = (msg) ->
-    getCurrentChannelBrainCell: () ->
-      # today = moment().format('MM-DD-YYYY')
-      brainCell = "Daily_todo_for__#{msg.message.room}"
+  ###
+    main logic for managing todos
+    brain structure is the following
+    {
+      "Daily_todo_for_<channel_name>": [{
+        "12-28-2015": [{
+          "restuta": [{
+            "text": "buy milk",
+            "completed": false
+          }]
+        }, {
+          "me4ta": [{}]
+        }]
+      }, {
+        "12-29-2015": [
 
-    getAllTodos: () ->
-      todos = robot.brain.get(this.getCurrentChannelBrainCell(msg))
-      return todos ? 'no todos yet ¯\\_(ツ)_/¯'
+        ]
+      }]
+    }
+  ###
+  Todos = (msg, robot) ->
+    mainBrainCell = "Daily_todo_for__#{msg.message.room}"
 
-    initInCurrentChannel: () ->
-      if (!this.getAllTodos())
-        return {}
+    init = () ->
+      today = moment().format('MM-DD-YYYY')
+      todaysTodos = {};
+      todaysTodos[today] = [{
+        'restuta': [{
+          text: 'buy milk',
+          completed: false
+        }]
+      }];
 
-      console.log this.getAllTodos()
+      todos = [{todaysTodos}]
+      robot.brain.set(mainBrainCell, todos)
+      console.log toJson todos
+
+    return {
+      getAllTodos: () ->
+        todos = robot.brain.get(mainBrainCell)
+        return todos ? 'no todos yet ¯\\_(ツ)_/¯'
+
+      initForCurrentChannel: () ->
+        #if (!this.getAllTodos())
+        init()
+    }
 
 
   # triggered only when "hubot <msg>" is sent
@@ -47,7 +78,7 @@ module.exports = (robot) ->
 
   #triggered on every message
   robot.hear /(todo)/i, (msg) ->
-    todos(msg).initInCurrentChannel(msg)
+    Todos(msg, robot).initForCurrentChannel(msg)
 
     slack.send(msg, 'Here', '#bbccdd', [{
       title: "Title"
