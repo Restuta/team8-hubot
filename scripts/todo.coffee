@@ -73,11 +73,11 @@ module.exports = (robot) ->
 
 
   # triggered only when "hubot <msg>" is sent
-  robot.respond /todo!/i, (msg) ->
+  robot.respond /test-todo!/i, (msg) ->
     slack.send(msg, 'text', '#00ccbb')
 
   #triggered on every message
-  robot.hear /(todo)/i, (msg) ->
+  robot.hear /(test-todo)/i, (msg) ->
     Todos(msg, robot).initForCurrentChannel(msg)
 
     slack.send(msg, 'Here', '#bbccdd', [{
